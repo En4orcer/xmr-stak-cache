@@ -31,6 +31,7 @@ R"===(
 #define cryptonight_gpu 13
 #define cryptonight_conceal 14
 #define cryptonight_v8_reversewaltz 17
+#define cryptonight_cache_hash = 18
 
 
 static const __constant ulong keccakf_rndc[24] =
@@ -596,7 +597,7 @@ __kernel void JOIN(cn1,ALGO) (__global uint4 *Scratchpad, __global ulong *states
 )
 {
 	ulong a[2];
-#if(ALGO == cryptonight_conceal)
+#if(ALGO == cryptonight_conceal || ALGO == cryptonight_cache_hash)
 	float4 conc_var = (float4)(0.0f);
 #endif
 
@@ -703,7 +704,7 @@ __kernel void JOIN(cn1,ALGO) (__global uint4 *Scratchpad, __global ulong *states
 
 			((uint4 *)c)[0] = SCRATCHPAD_CHUNK(0);
 
-#if(ALGO == cryptonight_conceal)
+#if(ALGO == cryptonight_conceal || ALGO == cryptonight_cache_hash)
 			float4 r  = convert_float4_rte(((int4 *)c)[0]);
 			float4 c_old = conc_var;
 			r = _mm_add_ps(r, conc_var);

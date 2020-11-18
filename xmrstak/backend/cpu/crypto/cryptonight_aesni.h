@@ -746,7 +746,7 @@ inline void cryptonight_conceal_tweak(__m128i& cx, __m128& conc_var)
 	__m128i bx1;                                                                                                                                                                         \
 	__m128i division_result_xmm;                                                                                                                                                         \
 	__m128 conc_var;                                                                                                                                                                     \
-	if(ALGO == cryptonight_conceal)                                                                                                                                                      \
+	if(ALGO == cryptonight_conceal || ALGO == cryptonight_cache_hash)                                                                                                                                                      \
 	{                                                                                                                                                                                    \
 		set_float_rounding_mode_nearest();                                                                                                                                               \
 		conc_var = _mm_setzero_ps();                                                                                                                                                     \
@@ -781,7 +781,7 @@ inline void cryptonight_conceal_tweak(__m128i& cx, __m128& conc_var)
 	__m128i cx;                                                                \
 	ptr0 = (__m128i*)&l0[idx0 & MASK];                                         \
 	cx = _mm_load_si128(ptr0);                                                 \
-	if(ALGO == cryptonight_conceal)                                            \
+	if(ALGO == cryptonight_conceal || ALGO == cryptonight_cache_hash)          \
 		cryptonight_conceal_tweak(cx, conc_var);                               \
 	if(ALGO == cryptonight_bittube2)                                           \
 	{                                                                          \
@@ -1215,6 +1215,7 @@ static void patchCode(T dst, U src, const uint32_t iterations, const uint32_t ma
 			*(uint32_t*)(patched_data + i) = iterations;
 			break;
 
+		case CN_CACHE_HASH_MASK:
 		case CN_MASK:
 			*(uint32_t*)(patched_data + i) = mask;
 			break;

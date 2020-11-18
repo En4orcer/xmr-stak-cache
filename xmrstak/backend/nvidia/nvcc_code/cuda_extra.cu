@@ -317,7 +317,7 @@ extern "C" int cryptonight_extra_cpu_init(nvid_ctx* ctx)
 		// create a double buffer for the state to exchange the mixed state to phase1
 		CUDA_CHECK(ctx->device_id, cudaMalloc(&ctx->d_ctx_state2, 50 * sizeof(uint32_t) * wsize));
 	}
-	else if(std::find(neededAlgorithms.begin(), neededAlgorithms.end(), cryptonight_conceal) != neededAlgorithms.end())
+	else if(std::find(neededAlgorithms.begin(), neededAlgorithms.end(), cryptonight_conceal, cryptonight_cache_hash) != neededAlgorithms.end())
 	{
 		ctx_b_size += sizeof(uint32_t) * 4 * wsize;
 	}
